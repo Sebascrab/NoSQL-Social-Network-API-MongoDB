@@ -1,7 +1,7 @@
 
 
 
-const { Thought } = require('../models/Thought');
+const { Thought } = require('../models');
 
 module.exports = {
 
@@ -18,7 +18,7 @@ module.exports = {
             .then((thought) => !thought ? res.status(404).json({ message: 'No thought with that ID ' })
                 : res.json(user)
             )
-            .catch((err) => res.status(500).json(err));
+            .catch((err) => res.status(500).json(err.message));
     },
 
     createThought(req, res) {
@@ -35,5 +35,17 @@ module.exports = {
             .then(() => res.json({ message: 'Thought deleted' }))
             .catch((err) => res.status(500).json(err));
     },
+
+    createReaction(req, res) {
+        Thought.findByIdAndUpdate(req.params.thoughtId, { $addToSet: { reactions: req.body } }, { runValidators: true, new: true })
+            .then(() => res.json({ message: 'Reaction created' }))
+            .catch((err) => res.status(500).json(err));
+    },
+
+    deleteReaction(req, res) {
+        Thought.findByIdAndUpdate(req.params.thoughtId, { $pull: { reactions: { reactionId: req.params.reactionId } }}, { runValidators: true, new: true })
+        .then(() => res.json({ message: 'Reaction deleted' }))
+        .catch((err) => res.status(500).json(err));
+    }
 
 };

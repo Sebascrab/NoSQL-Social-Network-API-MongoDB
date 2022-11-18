@@ -19,7 +19,3 @@ db.once('open', () => {
 });
 
 
-// const cwd = process.cwd();
-// const activity = cwd.includes('01-Activities')
-//   ? cwd.split('/01-Activities/')[1]
-//   : cwd;

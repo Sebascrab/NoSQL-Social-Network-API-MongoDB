@@ -1,6 +1,6 @@
 
 const { Schema, model } = require('mongoose');
-
+const dateFormat = require('../utils/dateFormat');
 
 
 // reaction schema: 
@@ -26,7 +26,7 @@ const reactionSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            // getter method to format the timestamp on query
+            get: (date) => dateFormat(date)
         }
     },
     {
@@ -52,7 +52,7 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            // use a getter method to format the timestamp on query
+            get: (date) => dateFormat(date)
         },
 
         username: {
@@ -60,9 +60,9 @@ const thoughtSchema = new Schema(
             required: true
         },
 
-        reactions: {
-            // array of nested documents created with "reactionSchema"
-        }
+        reactions: [reactionSchema]
+            
+        
     },
     {
         
@@ -73,7 +73,7 @@ const thoughtSchema = new Schema(
       }
 );
 
-reactionSchema
+thoughtSchema
 .virtual('reactionCount')
 .get(function () {
     return this.reactions.length;
@@ -81,6 +81,6 @@ reactionSchema
 
 
 // initializes our Thought model
-const Thought = model('Thought, thoughtSchema');
+const Thought = model('Thought', thoughtSchema);
 
-module.exports = User;
+module.exports = Thought;
