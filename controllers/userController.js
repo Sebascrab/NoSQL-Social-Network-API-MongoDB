@@ -1,7 +1,6 @@
 
 
-const req = require('express/lib/request');
-const res = require('express/lib/response');
+
 const { User } = require('../models/User');
 
 module.exports = {
@@ -24,17 +23,17 @@ module.exports = {
 
     createUser(req, res) {
         User.create(req.body)
-        .then((users) => res.json(users))
-        .catch((err) => res.status(500).json(err));
+            .then((users) => res.json(users))
+            .catch((err) => res.status(500).json(err));
     },
 
     deleteUser(req, res) {
         User.findOneAndDelete(req.body)
-        .then((users) => !user ? res.status(404).json({ message: 'No user with that ID'})
-        : User.deleteOne({ _id: { $in: user } })
-        )
-        .then(() => res.json({ message: 'User deleted!'}))
-        .catch((err) => res.status(500).json(err));
+            .then((user) => !user ? res.status(404).json({ message: 'No user with that ID' })
+                : User.deleteOne({ _id: { $in: user } })
+            )
+            .then(() => res.json({ message: 'User deleted!' }))
+            .catch((err) => res.status(500).json(err));
     },
 
 };

@@ -28,8 +28,16 @@ const reactionSchema = new Schema(
             default: Date.now,
             // getter method to format the timestamp on query
         }
-    }
-)
+    },
+    {
+        
+        toJSON: {
+          virtuals: true,
+        },
+        id: false,
+      }
+
+);
 
 // Thought Schema:
 const thoughtSchema = new Schema(
@@ -65,7 +73,7 @@ const thoughtSchema = new Schema(
       }
 );
 
-userSchema
+reactionSchema
 .virtual('reactionCount')
 .get(function () {
     return this.reactions.length;
