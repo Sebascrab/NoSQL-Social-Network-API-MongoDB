@@ -1,16 +1,16 @@
 
 
 const { Schema, model} = require('mongoose');
-const { arrayBuffer } = require('stream/consumers');
 
 
 
-// user schema
+
+// user schema:
 const userSchema = new Schema(
     {
        username: {
         type: String, 
-        required: "Must have username",
+        required: true,
         unique: true,
         trim: true
        },
