@@ -1,6 +1,6 @@
 
 const { Schema, model } = require('mongoose');
-const { Types } = require('mysql');
+
 
 
 // reaction schema: 
@@ -55,5 +55,24 @@ const thoughtSchema = new Schema(
         reactions: {
             // array of nested documents created with "reactionSchema"
         }
-    }
-)
+    },
+    {
+        
+        toJSON: {
+          virtuals: true,
+        },
+        id: false,
+      }
+);
+
+userSchema
+.virtual('reactionCount')
+.get(function () {
+    return this.reactions.length;
+});
+
+
+// initializes our Thought model
+const Thought = model('Thought, thoughtSchema');
+
+module.exports = User;
