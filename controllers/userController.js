@@ -46,4 +46,19 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
 
+    addFriend(req, res) {
+        User.findByIdAndUpdate(req.params.userId , { $addToSet: { friends: req.params.friendId } }, { new: true, runValidators: true}
+            )
+            .then(() => res.json({ message: 'Success' }))
+            .catch((err) => res.status(500).json(err));
+
+    },
+
+    deleteFriend(req, res) {
+        User.findByIdAndUpdate( req.params.userId , { $pull: { friends: req.params.friendId } }, { new: true, runValidators: true} 
+            )
+            .then(() => res.json({ message: 'Success' }))
+            .catch((err) => res.status(500).json(err));
+    }
+
 };
